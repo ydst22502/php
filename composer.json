@@ -1,0 +1,18 @@
+{
+    "require": {
+        "yiisoft/yii2": "~2.0.0",
+        "kartik-v/yii2-widget-sidenav": "*",
+        "bower-asset/bootstrap":"@stable",
+        "bower-asset/jquery-ui":"@stable",
+        "bower-asset/jquery.inputmask":"@stable",
+        "bower-asset/punycode":"@stable",
+        "pavlinter/yii2-sticky-footer": "dev-master"
+    },
+    "minimum-stability": "dev",
+	"extra": {
+            "asset-installer-paths": {
+        	"npm-asset-library": "vendor/npm",
+        	"bower-asset-library": "vendor/bower"
+            }
+        }
+}
