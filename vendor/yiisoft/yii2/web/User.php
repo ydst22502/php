@@ -639,11 +639,12 @@ class User extends Component
      * Checks if the user can perform the operation as specified by the given permission.
      *
      * Note that you must configure "authManager" application component in order to use this method.
-     * Otherwise it will always return false.
+     * Otherwise an exception will be thrown.
      *
      * @param string $permissionName the name of the permission (e.g. "edit post") that needs access check.
      * @param array $params name-value pairs that would be passed to the rules associated
-     * with the roles and permissions assigned to the user.
+     * with the roles and permissions assigned to the user. A param with name 'user' is added to
+     * this array, which holds the value of [[id]].
      * @param boolean $allowCaching whether to allow caching the result of access check.
      * When this parameter is true (default), if the access check of an operation was performed
      * before, its result will be directly returned when calling this method to check the same
@@ -657,10 +658,7 @@ class User extends Component
         if ($allowCaching && empty($params) && isset($this->_access[$permissionName])) {
             return $this->_access[$permissionName];
         }
-        if (($manager = $this->getAuthManager()) === null) {
-            return false;
-        }
-        $access = $manager->checkAccess($this->getId(), $permissionName, $params);
+        $access = $this->getAuthManager()->checkAccess($this->getId(), $permissionName, $params);
         if ($allowCaching && empty($params)) {
             $this->_access[$permissionName] = $access;
         }

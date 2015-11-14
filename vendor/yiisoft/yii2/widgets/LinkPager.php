@@ -44,10 +44,6 @@ class LinkPager extends Widget
      */
     public $linkOptions = [];
     /**
-     * @var string the CSS class for the each page button.
-     */
-    public $pageCssClass = null;
-    /**
      * @var string the CSS class for the "first" page button.
      */
     public $firstPageCssClass = 'first';
@@ -208,7 +204,7 @@ class LinkPager extends Widget
      */
     protected function renderPageButton($label, $page, $class, $disabled, $active)
     {
-        $options = ['class' => empty($class) ? $this->pageCssClass : $class];
+        $options = ['class' => $class === '' ? null : $class];
         if ($active) {
             Html::addCssClass($options, $this->activePageCssClass);
         }

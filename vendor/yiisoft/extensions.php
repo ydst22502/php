@@ -3,40 +3,58 @@
 $vendorDir = dirname(__DIR__);
 
 return array (
-  'pavlinter/yii2-sticky-footer' => 
+  'yiisoft/yii2-swiftmailer' => 
   array (
-    'name' => 'pavlinter/yii2-sticky-footer',
-    'version' => '9999999-dev',
+    'name' => 'yiisoft/yii2-swiftmailer',
+    'version' => '2.0.4.0',
     'alias' => 
     array (
-      '@pavlinter' => $vendorDir . '/pavlinter/yii2-sticky-footer',
+      '@yii/swiftmailer' => $vendorDir . '/yiisoft/yii2-swiftmailer',
+    ),
+  ),
+  'yiisoft/yii2-codeception' => 
+  array (
+    'name' => 'yiisoft/yii2-codeception',
+    'version' => '2.0.4.0',
+    'alias' => 
+    array (
+      '@yii/codeception' => $vendorDir . '/yiisoft/yii2-codeception',
     ),
   ),
   'yiisoft/yii2-bootstrap' => 
   array (
     'name' => 'yiisoft/yii2-bootstrap',
-    'version' => '9999999-dev',
+    'version' => '2.0.5.0',
     'alias' => 
     array (
       '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap',
     ),
   ),
-  'kartik-v/yii2-krajee-base' => 
+  'yiisoft/yii2-debug' => 
   array (
-    'name' => 'kartik-v/yii2-krajee-base',
-    'version' => '9999999-dev',
+    'name' => 'yiisoft/yii2-debug',
+    'version' => '2.0.5.0',
     'alias' => 
     array (
-      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
+      '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
     ),
   ),
-  'kartik-v/yii2-widget-sidenav' => 
+  'yiisoft/yii2-gii' => 
   array (
-    'name' => 'kartik-v/yii2-widget-sidenav',
-    'version' => '9999999-dev',
+    'name' => 'yiisoft/yii2-gii',
+    'version' => '2.0.4.0',
     'alias' => 
     array (
-      '@kartik/sidenav' => $vendorDir . '/kartik-v/yii2-widget-sidenav',
+      '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
+    ),
+  ),
+  'yiisoft/yii2-faker' => 
+  array (
+    'name' => 'yiisoft/yii2-faker',
+    'version' => '2.0.3.0',
+    'alias' => 
+    array (
+      '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
 );

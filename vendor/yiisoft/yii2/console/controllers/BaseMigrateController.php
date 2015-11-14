@@ -51,7 +51,7 @@ abstract class BaseMigrateController extends Controller
         return array_merge(
             parent::options($actionID),
             ['migrationPath'], // global for all actions
-            ($actionID === 'create') ? ['templateFile'] : [] // action create
+            ($actionID == 'create') ? ['templateFile'] : [] // action create
         );
     }
 
@@ -124,19 +124,14 @@ abstract class BaseMigrateController extends Controller
         }
         $this->stdout("\n");
 
-        $applied = 0;
-        if ($this->confirm('Apply the above ' . ($n === 1 ? 'migration' : 'migrations') . '?')) {
+        if ($this->confirm('Apply the above ' . ($n === 1 ? 'migration' : 'migrations') . "?")) {
             foreach ($migrations as $migration) {
                 if (!$this->migrateUp($migration)) {
-                    $this->stdout("\n$applied from $n " . ($applied === 1 ? 'migration was' : 'migrations were') ." applied.\n", Console::FG_RED);
                     $this->stdout("\nMigration failed. The rest of the migrations are canceled.\n", Console::FG_RED);
 
                     return self::EXIT_CODE_ERROR;
                 }
-                $applied++;
             }
-
-            $this->stdout("\n$n " . ($n === 1 ? 'migration was' : 'migrations were') ." applied.\n", Console::FG_GREEN);
             $this->stdout("\nMigrated up successfully.\n", Console::FG_GREEN);
         }
     }
@@ -164,7 +159,7 @@ abstract class BaseMigrateController extends Controller
         } else {
             $limit = (int) $limit;
             if ($limit < 1) {
-                throw new Exception('The step argument must be greater than 0.');
+                throw new Exception("The step argument must be greater than 0.");
             }
         }
 
@@ -185,18 +180,14 @@ abstract class BaseMigrateController extends Controller
         }
         $this->stdout("\n");
 
-        $reverted = 0;
-        if ($this->confirm('Revert the above ' . ($n === 1 ? 'migration' : 'migrations') . '?')) {
+        if ($this->confirm('Revert the above ' . ($n === 1 ? 'migration' : 'migrations') . "?")) {
             foreach ($migrations as $migration) {
                 if (!$this->migrateDown($migration)) {
-                    $this->stdout("\n$reverted from $n " . ($reverted === 1 ? 'migration was' : 'migrations were') ." reverted.\n", Console::FG_RED);
                     $this->stdout("\nMigration failed. The rest of the migrations are canceled.\n", Console::FG_RED);
 
                     return self::EXIT_CODE_ERROR;
                 }
-                $reverted++;
             }
-            $this->stdout("\n$n " . ($n === 1 ? 'migration was' : 'migrations were') ." reverted.\n", Console::FG_GREEN);
             $this->stdout("\nMigrated down successfully.\n", Console::FG_GREEN);
         }
     }
@@ -226,7 +217,7 @@ abstract class BaseMigrateController extends Controller
         } else {
             $limit = (int) $limit;
             if ($limit < 1) {
-                throw new Exception('The step argument must be greater than 0.');
+                throw new Exception("The step argument must be greater than 0.");
             }
         }
 
@@ -247,7 +238,7 @@ abstract class BaseMigrateController extends Controller
         }
         $this->stdout("\n");
 
-        if ($this->confirm('Redo the above ' . ($n === 1 ? 'migration' : 'migrations') . '?')) {
+        if ($this->confirm('Redo the above ' . ($n === 1 ? 'migration' : 'migrations') . "?")) {
             foreach ($migrations as $migration) {
                 if (!$this->migrateDown($migration)) {
                     $this->stdout("\nMigration failed. The rest of the migrations are canceled.\n", Console::FG_RED);
@@ -262,7 +253,6 @@ abstract class BaseMigrateController extends Controller
                     return self::EXIT_CODE_ERROR;
                 }
             }
-            $this->stdout("\n$n " . ($n === 1 ? 'migration was' : 'migrations were') ." redone.\n", Console::FG_GREEN);
             $this->stdout("\nMigration redone successfully.\n", Console::FG_GREEN);
         }
     }
@@ -387,7 +377,7 @@ abstract class BaseMigrateController extends Controller
         } else {
             $limit = (int) $limit;
             if ($limit < 1) {
-                throw new Exception('The limit must be greater than 0.');
+                throw new Exception("The limit must be greater than 0.");
             }
         }
 
@@ -431,7 +421,7 @@ abstract class BaseMigrateController extends Controller
         } else {
             $limit = (int) $limit;
             if ($limit < 1) {
-                throw new Exception('The limit must be greater than 0.');
+                throw new Exception("The limit must be greater than 0.");
             }
         }
 
@@ -472,7 +462,7 @@ abstract class BaseMigrateController extends Controller
     public function actionCreate($name)
     {
         if (!preg_match('/^\w+$/', $name)) {
-            throw new Exception('The migration name should contain letters, digits and/or underscore characters only.');
+            throw new Exception("The migration name should contain letters, digits and/or underscore characters only.");
         }
 
         $name = 'm' . gmdate('ymd_His') . '_' . $name;
@@ -502,12 +492,12 @@ abstract class BaseMigrateController extends Controller
         if ($migration->up() !== false) {
             $this->addMigrationHistory($class);
             $time = microtime(true) - $start;
-            $this->stdout("*** applied $class (time: " . sprintf('%.3f', $time) . "s)\n\n", Console::FG_GREEN);
+            $this->stdout("*** applied $class (time: " . sprintf("%.3f", $time) . "s)\n\n", Console::FG_GREEN);
 
             return true;
         } else {
             $time = microtime(true) - $start;
-            $this->stdout("*** failed to apply $class (time: " . sprintf('%.3f', $time) . "s)\n\n", Console::FG_RED);
+            $this->stdout("*** failed to apply $class (time: " . sprintf("%.3f", $time) . "s)\n\n", Console::FG_RED);
 
             return false;
         }
@@ -530,13 +520,13 @@ abstract class BaseMigrateController extends Controller
         if ($migration->down() !== false) {
             $this->removeMigrationHistory($class);
             $time = microtime(true) - $start;
-            $this->stdout("*** reverted $class (time: " . sprintf('%.3f', $time) . "s)\n\n", Console::FG_GREEN);
+            $this->stdout("*** reverted $class (time: " . sprintf("%.3f", $time) . "s)\n\n", Console::FG_GREEN);
 
 
             return true;
         } else {
             $time = microtime(true) - $start;
-            $this->stdout("*** failed to revert $class (time: " . sprintf('%.3f', $time) . "s)\n\n", Console::FG_RED);
+            $this->stdout("*** failed to revert $class (time: " . sprintf("%.3f", $time) . "s)\n\n", Console::FG_RED);
 
             return false;
         }

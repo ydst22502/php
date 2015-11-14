@@ -105,17 +105,6 @@ class ColumnSchemaBuilder extends Object
     }
 
     /**
-     * Specify the default SQL expression for the column.
-     * @param string $default the default value expression.
-     * @return $this
-     */
-    public function defaultExpression($default)
-    {
-        $this->default = new Expression($default);
-        return $this;
-    }
-
-    /**
      * Build full string for create the column's schema
      * @return string
      */
@@ -184,9 +173,6 @@ class ColumnSchemaBuilder extends Object
                 break;
             case 'boolean':
                 $string .= $this->default ? 'TRUE' : 'FALSE';
-                break;
-            case 'object':
-                $string .= (string) $this->default;
                 break;
             default:
                 $string .= "'{$this->default}'";

@@ -54,7 +54,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
         }
 
         if ($this->isOldMssql()) {
-            return $this->oldBuildOrderByAndLimit($sql, $orderBy, $limit, $offset);
+            return $this->oldbuildOrderByAndLimit($sql, $orderBy, $limit, $offset);
         } else {
             return $this->newBuildOrderByAndLimit($sql, $orderBy, $limit, $offset);
         }

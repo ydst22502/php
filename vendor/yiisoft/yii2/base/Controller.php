@@ -122,7 +122,7 @@ class Controller extends Component implements ViewContextInterface
             throw new InvalidRouteException('Unable to resolve the request: ' . $this->getUniqueId() . '/' . $id);
         }
 
-        Yii::trace('Route to run: ' . $action->getUniqueId(), __METHOD__);
+        Yii::trace("Route to run: " . $action->getUniqueId(), __METHOD__);
 
         if (Yii::$app->requestedAction === null) {
             Yii::$app->requestedAction = $action;
@@ -244,14 +244,11 @@ class Controller extends Component implements ViewContextInterface
      * ```php
      * public function beforeAction($action)
      * {
-     *     // your custom code here, if you want the code to run before action filters,
-     *     // wich are triggered on the [[EVENT_BEFORE_ACTION]] event, e.g. PageCache or AccessControl
-     *
      *     if (!parent::beforeAction($action)) {
      *         return false;
      *     }
      *
-     *     // other custom code here
+     *     // your custom code here
      *
      *     return true; // or false to not run the action
      * }
