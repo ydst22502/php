@@ -1,10 +1,4 @@
 <?php
-
-/* 
- * @Developed by Dajun Luo
- * @All copyrights reserved
- */
-
 namespace app\controllers;
 
 use yii\web\Controller;

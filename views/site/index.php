@@ -1,9 +1,4 @@
 <?php
-
-/* 
-* @Developed by Dajun Luo
-* @All copyrights reserved
-*/
 use yii\helpers\Html;
 use yii\helpers\Url;
 

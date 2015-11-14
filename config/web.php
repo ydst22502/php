@@ -1,10 +1,5 @@
 <?php
 
-/* 
- * @Developed by Dajun Luo
- * @All copyrights reserved
- */
-
  return [
        'id' => 'DSL',
        'basePath' => realpath(__DIR__ . '/../'),
