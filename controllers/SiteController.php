@@ -49,7 +49,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+      $dbinfo = Yii::$app->db;
+        return $this->render('index',['dbinfo' => $dbinfo]);
     }
 
     public function actionLogin()
