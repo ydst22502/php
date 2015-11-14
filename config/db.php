@@ -1,9 +1,8 @@
 <?php
 
 return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=ohmycto',
-    'username' => 'website',
-    'password' => 'mengde1B',
-    'charset' => 'utf8',
+	'class' => 'yii\db\Connection',
+	'dsn' => 'mysql:host=127.0.0.1; dbname=ohmycto',
+	'username' => 'website',
+	'password' => 'mengde1B',
 ];
