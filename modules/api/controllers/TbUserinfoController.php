@@ -69,11 +69,11 @@ class TbUserinfoController extends Controller
         $email = Yii::$app->request->post('email');
         $client_authkey = Yii::$app->request->post('authkey');
         $query = TbUserinfo::find()->where(['email' => $email])->one();
-        if ($query == NULL) return BaseJson::encode(['flag'=>'-1', 'userid'=>'-1', 'token'=>'-1']);
+        if ($query == NULL) return BaseJson::encode(['flag'=>'-1', 'userid'=>'-1', 'token'=>'-1']);//登录失败
         if ($query->authkey == md5(md5($client_authkey).$query->authsalt)) {
-          return BaseJson::encode(['flag'=>'1', 'userid'=>$query->userid, 'token'=>$query->authsalt]);
+          return BaseJson::encode(['flag'=>'1', 'userid'=>$query->userid, 'token'=>$query->authsalt]);//登陆成功
         } else {
-          return BaseJson::encode(['flag'=>'-1', 'userid'=>'-1', 'token'=>'-1']);
+          return BaseJson::encode(['flag'=>'-1', 'userid'=>'-1', 'token'=>'-1']);//登录失败
         }
       }
 }
