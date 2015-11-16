@@ -66,9 +66,9 @@ class TbUserinfoController extends Controller
         $userinfo->imagedir = $imagedir;
         $userinfo->authkey = $authkey;
         $userinfo->authsalt = $authsalt;
-        $userid = $userinfo->save();
-        if ($userid > 0) {
-            return BaseJson::encode(['flag'=>'1', 'userid'=>$userid, 'token'=>$authsalt]);//添加成功
+        //抛出插入的userid
+        if ($userinfo->save() > 0) {
+            return BaseJson::encode(['flag'=>'1', 'userid'=>$userinfo->userid, 'token'=>$authsalt]);//添加成功
         } else {
             return BaseJson::encode(['flag'=>'-1', 'userid'=>'-1', 'token'=>'-1']);//添加失败
         }
