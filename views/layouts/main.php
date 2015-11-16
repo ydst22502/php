@@ -33,20 +33,27 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
+    $menuitems=[
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
+    ];
+    if (Yii::$app->user->isGuest)
+    {
+        $menuitems[]=['label' => '登录', 'url' => ['/site/login']];
+        $menuitems[]=['label' => '注册', 'url' => ['/site/signup']];
+    }
+    else
+    {
+        $menuitems[]=[
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
+                ];
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $menuitems,
     ]);
     NavBar::end();
     ?>

@@ -2,102 +2,83 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+use yii\web\IdentityInterface;
+
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'tb_userinfo';
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function rules()
+    {
+        return [
+            [['username', 'authkey', 'email'], 'required'],
+            [['username', 'authkey', 'email', 'authsalt'], 'string', 'max' => 255],
+            [['username'], 'unique'],
+            [['email'], 'unique']
+        ];
+    }
+
+    public function setPassword($authkey){
+        $this->authkey = Yii::$app->security->generatePasswordHash($authkey);
+    }
+
+
+    public static function findIdentity($userid)
+    {
+        return static::findOne($userid);
+    }
+    
+    public static function findByEmail($email){
+        return static::findOne(['email' => $email]);
+    }
+    
+    public function validatePassword($authkey){
+        return Yii::$app->security->validatePassword($authkey, $this->authkey);
+    }
+    
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
-
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
-        return $this->id;
+        return $this->userid;
     }
-
-    /**
-     * @inheritdoc
-     */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->authsalt;
+    }
+    public function validateAuthKey($authsalt)
+    {
+        return $this->getAuthKey() === $authsalt;
+    }
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->authsalt = Yii::$app->getSecurity()->generateRandomString();
+            }
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
+    public function attributeLabels()
     {
-        return $this->authKey === $authKey;
+        return [
+            'userid' => 'ID',
+            'username' => '用户名',
+            'email' => '邮箱',
+            'homepage' =>'主页',
+            'imagedir' =>'头像',
+            'authkey' =>'密码',
+            'authsalt' =>'hash'
+        ];
     }
 
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
-    }
 }

@@ -2,8 +2,10 @@
 
 namespace app\models;
 
-use Yii;
+use app\models\User;
+use app\models\loginform;
 use yii\base\Model;
+use yii;
 
 /**
  * LoginForm is the model behind the login form.
@@ -11,24 +13,24 @@ use yii\base\Model;
 class LoginForm extends Model
 {
     public $username;
-    public $password;
+    public $email;
+    public $authkey;
     public $rememberMe = true;
 
     private $_user = false;
 
 
-    /**
-     * @return array the validation rules.
-     */
-    public function rules()
-    {
+    public function rules(){
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+                ['email', 'filter', 'filter' => 'trim'],
+                ['email', 'required'],
+                ['email', 'email'],
+                
+                ['rememberMe', 'boolean'],
+                
+                ['authkey', 'required'],
+                ['authkey', 'string', 'min' => 6],
+                ['authkey', 'validatePassword'],
         ];
     }
 
@@ -44,7 +46,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$user || !$user->validatePassword($this->authkey)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -70,9 +72,17 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;
+    }
+    public function attributeLabels(){
+        return [
+                'username' => '用户名',
+                'authkey' => '密码',
+                'email'=>'邮箱',
+                'rememberMe'=>'记住我',
+        ];
     }
 }
