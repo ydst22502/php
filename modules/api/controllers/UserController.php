@@ -65,4 +65,5 @@ class TbUserinfoController extends Controller
 
         return BaseJson::encode($model->login($email, $authkey));
     }
+
 }

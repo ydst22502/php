@@ -2,34 +2,47 @@
 
 namespace app\modules\api\models;
 
-use Yii;
-
 /**
  * This is the model class for table "tb_post".
  *
- * @property integer $postid
- * @property integer $userid
+ * @property int $postid
+ * @property int $userid
  * @property string $title
  * @property string $ip
  * @property string $posttime
  * @property string $content
  * @property string $tag
- *
  * @property TbUserinfo $user
  * @property TbReply[] $tbReplies
  */
 class TbPost extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'tb_post';
     }
 
+    public function insertIn($userid, $title, $ip, $posttime, $content, $tag)
+    {
+        $this->userid = $userid;
+        $this->title = $title;
+        $this->ip = $ip;
+        $this->posttime = $posttime;
+        $this->content = $content;
+        $this->tag = $tag;
+
+        if ($this->save() > 0 ) {
+          return $this->postid;
+        }else {
+          return '-1';
+        }
+    }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -37,12 +50,12 @@ class TbPost extends \yii\db\ActiveRecord
             [['userid'], 'integer'],
             [['posttime'], 'safe'],
             [['content'], 'string'],
-            [['title', 'ip', 'tag'], 'string', 'max' => 255]
+            [['title', 'ip', 'tag'], 'string', 'max' => 255],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {

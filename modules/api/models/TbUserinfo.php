@@ -86,6 +86,19 @@ class TbUserinfo extends \yii\db\ActiveRecord
       }
     }
 
+    /*********
+    *验证token和userid是不是符合
+    *******/
+    public function isTokenOfThisUseridRight($userid, $token)
+    {
+      $query = $this->find()->where(['userid' => $userid])->one();
+      if ($query->authsalt == $token) {//这里偷了个懒token同时也是salt
+        return true;
+      }else{
+        return false;
+      }
+    }
+
     /**
      * {@inheritdoc}
      */
