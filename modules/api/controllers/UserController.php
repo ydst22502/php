@@ -27,7 +27,7 @@ class UserController extends Controller
         $email = Yii::$app->request->post('email');
         $model = new TbUserinfo();
 
-        return BaseJson::encode($model->isEmailDuplication($email));
+        return $model->isEmailDuplication($email); //如果对一个字符串进行Json加密的话会变成""string""
     }
 
     /********
@@ -38,7 +38,7 @@ class UserController extends Controller
         $username = Yii::$app->request->post('username');
         $model = new TbUserinfo();
 
-        return BaseJson::encode($model->isNameDuplication($username));
+        return $model->isNameDuplication($username);
     }
 
     /********
