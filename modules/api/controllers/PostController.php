@@ -7,7 +7,7 @@ use app\modules\api\models\TbUserinfo;
 use yii\helpers\BaseJson;
 use Yii;
 
-class TbPostController extends \yii\web\Controller
+class PostController extends \yii\web\Controller
 {
   /********
   *返回所有post信息

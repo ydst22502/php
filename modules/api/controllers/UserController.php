@@ -7,7 +7,7 @@ use app\modules\api\models\TbUserinfo;
 use yii\helpers\BaseJson;
 use Yii;
 
-class TbUserinfoController extends Controller
+class UserController extends Controller
 {
     /********
   *返回所有用户信息
