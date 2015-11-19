@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use app\modules\api\models\TbPost;
 use app\modules\api\models\TbUserinfo;
 use yii\helpers\BaseJson;
+use yii\helpers\Json;
 use Yii;
 
 class PostController extends \yii\web\Controller
@@ -14,7 +15,7 @@ class PostController extends \yii\web\Controller
   *******/
   public function actionAll()
   {
-      return BaseJson::encode(TbPost::find()->all());
+      return Json::encode(TbPost::find()->all());
   }
 
   /********

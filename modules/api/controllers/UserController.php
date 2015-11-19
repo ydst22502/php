@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $model = new TbUserinfo();
 
-        return BaseJson::encode($model->listAllUser());
+        return Json::encode($model->listAllUser());
     }
 
     /********
@@ -51,7 +51,7 @@ class UserController extends Controller
       $authkey = Yii::$app->request->post('authkey');
       $model = new TbUserinfo();
 
-      return BaseJson::encode($model->insertIn($username, $email, $authkey));
+      return Json::encode($model->insertIn($username, $email, $authkey));
     }
 
     /********
@@ -63,7 +63,7 @@ class UserController extends Controller
         $authkey = Yii::$app->request->post('authkey');
         $model = new TbUserinfo();
 
-        return BaseJson::encode($model->login($email, $authkey));
+        return Json::encode($model->login($email, $authkey));
     }
 
 }
