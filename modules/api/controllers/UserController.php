@@ -5,6 +5,7 @@ namespace app\modules\api\controllers;
 use yii\web\Controller;
 use app\modules\api\models\TbUserinfo;
 use yii\helpers\BaseJson;
+use yii\helpers\Json;
 use Yii;
 
 class UserController extends Controller
