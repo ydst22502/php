@@ -10,6 +10,9 @@ $config = [
             'api' => [
                 'class' => 'app\modules\api\Module',
               ],
+            'gii' => [
+                'class' => 'yii\gii\Module',
+            ],
     ],
     'components' => [
         'request' => [
@@ -46,6 +49,7 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
+    'extensions' => require(__DIR__ . '/../vendor/yiisoft/extensions.php'),
 ];
 
 if (YII_ENV_DEV) {
@@ -53,11 +57,6 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-    ];
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
     ];
 }
 
