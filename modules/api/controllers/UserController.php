@@ -67,4 +67,16 @@ class UserController extends Controller
         return Json::encode($model->login($email, $authkey));
     }
 
+    public function actionGetUserinfo()
+    {
+      $userid = Yii::$app->request->post('userid');
+
+      $model = new TbUserinfo();
+      $row = $model->find()
+      ->where(['userid' => $userid])
+      ->one();
+
+      return Json::encode($row);
+    }
+
 }
