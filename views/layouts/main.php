@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'OhMyCTO~~~~~~~~~~',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -35,8 +35,7 @@ AppAsset::register($this);
     ]);
     $menuitems=[
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => '主题列表', 'url' => ['/post/index']],
     ];
     if (Yii::$app->user->isGuest)
     {
@@ -46,7 +45,11 @@ AppAsset::register($this);
     else
     {
         $menuitems[]=[
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'label' => '发表主题',
+                    'url' => ['/post/create'],
+                ];
+        $menuitems[]=[
+                    'label' => '注销 (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ];
