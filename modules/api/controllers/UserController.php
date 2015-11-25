@@ -79,6 +79,10 @@ class UserController extends Controller
       ->where(['userid' => $userid])
       ->one();
 
+      if ($row->introduction == NULL) {
+        $row->introduction = "empty";
+      }
+
       return Json::encode($row);
     }
 
