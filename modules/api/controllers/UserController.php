@@ -67,6 +67,9 @@ class UserController extends Controller
         return Json::encode($model->login($email, $authkey));
     }
 
+    /********
+    *通过userid查详细userinfo
+    *******/
     public function actionGetUserinfo()
     {
       $userid = Yii::$app->request->post('userid');
