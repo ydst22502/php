@@ -85,6 +85,9 @@ class UserController extends Controller
         return Json::encode($row);
     }
 
+    /********
+    *更新用户详细信息
+    *******/
     public function actionRefreshUserinfo()
     {
         $userid = Yii::$app->request->post('userid');
@@ -104,5 +107,13 @@ class UserController extends Controller
         } else {
             return '-1';
         }
+    }
+
+    public function actionAvatar()
+    {
+      $userid = Yii::$app->request->post('userid');
+      $model = new TbUserinfo();
+      $row = $model->findOne($userid);
+      return $this->renderFile('@app/user_assets/avatar.jpg');
     }
 }
