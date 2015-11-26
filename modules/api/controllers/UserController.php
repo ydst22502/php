@@ -4,7 +4,6 @@ namespace app\modules\api\controllers;
 
 use yii\web\Controller;
 use app\modules\api\models\TbUserinfo;
-use yii\helpers\BaseJson;
 use yii\helpers\Json;
 use Yii;
 
@@ -47,12 +46,12 @@ class UserController extends Controller
     *******/
     public function actionCreate()
     {
-      $username = Yii::$app->request->post('username');
-      $email = Yii::$app->request->post('email');
-      $authkey = Yii::$app->request->post('authkey');
-      $model = new TbUserinfo();
+        $username = Yii::$app->request->post('username');
+        $email = Yii::$app->request->post('email');
+        $authkey = Yii::$app->request->post('authkey');
+        $model = new TbUserinfo();
 
-      return Json::encode($model->insertIn($username, $email, $authkey));
+        return Json::encode($model->insertIn($username, $email, $authkey));
     }
 
     /********
@@ -72,18 +71,38 @@ class UserController extends Controller
     *******/
     public function actionGetUserinfo()
     {
-      $userid = Yii::$app->request->post('userid');
+        $userid = Yii::$app->request->post('userid');
 
-      $model = new TbUserinfo();
-      $row = $model->find()
+        $model = new TbUserinfo();
+        $row = $model->find()
       ->where(['userid' => $userid])
       ->one();
 
-      if ($row->introduction == NULL) {
-        $row->introduction = "empty";
-      }
+        if ($row->introduction == null) {
+            $row->introduction = 'empty';
+        }
 
-      return Json::encode($row);
+        return Json::encode($row);
     }
 
+    public function actionRefreshUserinfo()
+    {
+        $userid = Yii::$app->request->post('userid');
+        $username = Yii::$app->request->post('username');
+        $email = Yii::$app->request->post('email');
+        $introduction = Yii::$app->request->post('introduction');
+
+        $model = new TbUserinfo();
+
+        $row = $model->findOne($userid);
+        $row->username = $username;
+        $row->email = $email;
+        $row->introduction = $introduction;
+
+        if ($row->save() > 0) {
+            return '1';
+        } else {
+            return '-1';
+        }
+    }
 }
