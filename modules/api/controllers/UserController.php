@@ -109,11 +109,21 @@ class UserController extends Controller
         }
     }
 
-    public function actionAvatar()
+    /********
+    *上传文件
+    *******/
+    public function actionUpload()
     {
-      $userid = Yii::$app->request->post('userid');
-      $model = new TbUserinfo();
-      $row = $model->findOne($userid);
-      return $this->renderFile('@app/user_assets/avatar.jpg');
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+
+            if ($model->validate()) {
+                $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension);
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
     }
 }
