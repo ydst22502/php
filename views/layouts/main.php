@@ -45,6 +45,10 @@ AppAsset::register($this);
     else
     {
         $menuitems[]=[
+                    'label' => '我的主页',
+                    'url' => ['/user/index'],
+                ];
+        $menuitems[]=[
                     'label' => '发表主题',
                     'url' => ['/post/create'],
                 ];

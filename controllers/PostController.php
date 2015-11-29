@@ -4,10 +4,13 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Post;
+use app\models\Reply;
 use app\models\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\Pagination;
+use yii\filters\AccessControl;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -35,6 +38,7 @@ class PostController extends Controller
         $searchModel = new PostSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -48,8 +52,17 @@ class PostController extends Controller
      */
     public function actionView($id)
     {
+        $pagination=new Pagination([
+            'totalCount'=>Reply::find()->where(['postid' => $id])->count(),
+        ]);
+        $newreply = new Reply();
+        $replies=Reply::find()->where(['postid' => $id])->orderBy('replytime')->offset($pagination->offset)->limit($pagination->limit)->all();
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'pagination' => $pagination,
+            'replies' => $replies,
+            'newreply' => $newreply,
         ]);
     }
 
@@ -121,6 +134,17 @@ class PostController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionReply($id)
+    {
+        $model = new Reply();
+        $model->postid = $id;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['post/view', 'id' => $model->postid]);
+        } else {
+            return $this->redirect(['post/view', 'id' => $model->postid]);
+        }
     }
 
     /**
