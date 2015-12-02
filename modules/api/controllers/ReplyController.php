@@ -3,6 +3,7 @@
 namespace app\modules\api\controllers;
 
 use app\modules\api\models\TbReply;
+use app\modules\api\models\TbUserinfo;
 use yii\helpers\Json;
 use Yii;
 
@@ -44,12 +45,16 @@ class ReplyController extends \yii\web\Controller
         $replytime = date('Y-m-d H:i:s');
         $ip = Yii::$app->request->userIP;
 
+        $model_user = new TbUserinfo();
+        $username = $model_user->findOne($userid)->username;
+
         $model = new TbReply();
         $model->postid = $postid;
         $model->userid = $userid;
         $model->content = $content;
         $model->replytime = $replytime;
         $model->ip = $ip;
+        $model->username = $username;
         if ($model->save() > 0) {
             return $model->replyid;
         } else {
